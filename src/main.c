@@ -81,5 +81,6 @@ int		main(int argc, char **argv)
 	g_filler = (t_game_elem *)malloc(sizeof(*g_filler));
 	fd = open(argv[1], O_RDONLY);
 	read_input_and_fill_struct(fd);
+	find_best_move();
 	return (0);
 }

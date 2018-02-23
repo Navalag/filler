@@ -21,7 +21,8 @@ LIB_DIR := ./libftprintf/
 
 # project source files
 
-SRC =	main.c
+SRC =	main.c \
+		solve_algo.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 
