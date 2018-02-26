@@ -28,7 +28,16 @@ typedef struct	s_board
 	int		y_max;
 	int		x_token;
 	int		y_token;
+
+	int 	fd_test;
 }				t_game_elem;
+
+typedef struct	s_cpu
+{
+	int		x;
+	int		y;
+	int		cpu;
+}				t_cpu;
 
 t_game_elem		*g_filler;
 

@@ -62,6 +62,7 @@ void	read_input_and_fill_struct(int fd)
 	get_next_line(fd, &line);
 	g_filler->x_o_team = (line[10] == '1') ? 'O' : 'X';
 	ft_printf("x_o_team = %c\n", g_filler->x_o_team); // test
+	dprintf(g_filler->fd_test, "%s\n", line);
 	free(line);
 	get_next_line(fd, &line);
 	g_filler->y_max = ft_atoi(line + 8);
@@ -79,6 +80,7 @@ int		main(int argc, char **argv)
 	(void)argc;
 
 	g_filler = (t_game_elem *)malloc(sizeof(*g_filler));
+	g_filler->fd_test = open("test_map.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	fd = open(argv[1], O_RDONLY);
 	read_input_and_fill_struct(fd);
 	find_best_move();
