@@ -39,15 +39,29 @@ typedef struct	s_cpu
 	int		cpu;
 }				t_cpu;
 
+typedef struct	s_fig
+{
+	int		x;
+	int		y;
+}				t_fig;
+
 t_game_elem		*g_filler;
+t_cpu			*g_cpu;
 
 void	fill_token_with_figure(int fd);
 void	fill_board_with_lines(int fd);
 void	read_input_and_fill_struct(int fd);
 
-void	find_best_move(void);
-void	find_opponent(char ch);
-int		check_neighbors(int y, int x);
-void	surround_with_numbers(int y, int x, int i);
+void	make_next_step(void);
+void	max_cpu(int cpu, int x, int y, t_cpu *cpu_head);
+int		find_cpu(int x, int y);
+int		check_figure(int x, int y);
+t_cpu	*create_n_clean_cpu_struct();
+
+int		check_current_token_line(int j);
+int		check_prev_line(int y);
+int		abc(int i);
+int		max_int(int i, int j);
+int		check_next_line(int y);
 
 #endif

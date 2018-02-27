@@ -28,7 +28,7 @@ void	fill_token_with_figure(int fd)
 	free(line);
 	while (get_next_line(fd, &line) && i < g_filler->y_token)
 	{
-		g_filler->token[i] = ft_strnew(g_filler->x_token + 1);
+		// g_filler->token[i] = ft_strnew(g_filler->x_token + 1);
 		g_filler->token[i] = ft_strdup(line);
 		ft_printf("g_filler->token[%i]: |%s|\n", i, g_filler->token[i]);
 		free(line);
@@ -46,7 +46,7 @@ void	fill_board_with_lines(int fd)
 	free(line);
 	while (i < g_filler->y_max && get_next_line(fd, &line))
 	{
-		g_filler->board[i] = ft_strnew(g_filler->x_max + 1);
+		// g_filler->board[i] = ft_strnew(g_filler->x_max + 1);
 		g_filler->board[i] = ft_strdup(line + 4);
 		ft_printf("g_filler->board[%i]: |%s|\n", i, g_filler->board[i]);
 		free(line);
@@ -83,6 +83,6 @@ int		main(int argc, char **argv)
 	g_filler->fd_test = open("test_map.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	fd = open(argv[1], O_RDONLY);
 	read_input_and_fill_struct(fd);
-	find_best_move();
+	make_next_step();
 	return (0);
 }

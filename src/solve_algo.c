@@ -28,7 +28,7 @@ void	find_opponent(char ch)
 	int		i;
 	int		break_flag;
 
-	i = 0;
+	i = 1;
 	break_flag = 1;
 	while (break_flag)
 	{
@@ -73,19 +73,19 @@ int		check_neighbors(int y, int x)
 void	surround_with_numbers(int y, int x, int i)
 {
 	if (g_filler->board[y][x - 1] == '.')
-		g_filler->board[y][x - 1] += 3 + i;
+		g_filler->board[y][x - 1] = i;
 	if (g_filler->board[y][x + 1] == '.')
-		g_filler->board[y][x + 1] += 3 + i;
+		g_filler->board[y][x + 1] = i;
 	if (g_filler->board[y - 1][x] == '.')
-		g_filler->board[y - 1][x] += 3 + i;
+		g_filler->board[y - 1][x] = i;
 	if (g_filler->board[y + 1][x] == '.')
-		g_filler->board[y + 1][x] += 3 + i;
+		g_filler->board[y + 1][x] = i;
 	if (g_filler->board[y - 1][x - 1] == '.')
-		g_filler->board[y - 1][x - 1] += 3 + i;
+		g_filler->board[y - 1][x - 1] = i;
 	if (g_filler->board[y - 1][x + 1] == '.')
-		g_filler->board[y - 1][x + 1] += 3 + i;
+		g_filler->board[y - 1][x + 1] = i;
 	if (g_filler->board[y + 1][x - 1] == '.')
-		g_filler->board[y + 1][x - 1] += 3 + i;
+		g_filler->board[y + 1][x - 1] = i;
 	if (g_filler->board[y + 1][x + 1] == '.')
-		g_filler->board[y + 1][x + 1] += 3 + i;
+		g_filler->board[y + 1][x + 1] = i;
 }
