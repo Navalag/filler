@@ -39,14 +39,17 @@ typedef struct	s_cpu
 	int		cpu;
 }				t_cpu;
 
-typedef struct	s_fig
+typedef struct	s_res
 {
 	int		x;
 	int		y;
-}				t_fig;
+	int		diff_x;
+	int		diff_y;
+}				t_res;
 
 t_game_elem		*g_filler;
 t_cpu			*g_cpu;
+t_res			*g_res;
 
 void	fill_token_with_figure(int fd);
 void	fill_board_with_lines(int fd);
