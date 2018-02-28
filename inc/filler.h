@@ -56,15 +56,13 @@ void	fill_board_with_lines(int fd);
 void	read_input_and_fill_struct(int fd);
 
 void	make_next_step(void);
-void	max_cpu(int cpu, int x, int y, t_cpu *cpu_head);
-int		find_cpu(int x, int y);
+void	index_all_board(char ch);
+void	surround_with_numbers(int x, int y, unsigned char i);
+void	find_best_move(char ch);
 int		check_figure(int x, int y);
-t_cpu	*create_n_clean_cpu_struct();
-
 int		check_current_token_line(int j);
-int		check_prev_line(int y);
-int		abc(int i);
-int		max_int(int i, int j);
-int		check_next_line(int y);
+void	best_cpu(int tmp_cpu, int x, int y);
+int		find_cpu(int x, int y);
+void	find_result(void);
 
 #endif

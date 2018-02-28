@@ -77,7 +77,7 @@ void	surround_with_numbers(int x, int y, unsigned char i)
 		g_filler->board[y + 1][x + 1] = i;
 }
 
-void	find_best_move(void)
+void	find_best_move(char ch)
 {
 	int		y;
 	int		x;
@@ -96,7 +96,7 @@ void	find_best_move(void)
 	}
 }
 
-bool	check_figure(int x, int y)
+int		check_figure(int x, int y)
 {
 	int		i;
 	int		j;
@@ -116,7 +116,7 @@ bool	check_figure(int x, int y)
 			}
 			if (index > 1 || g_filler->board[y][x] == 'X' ||
 				g_filler->board[y][x] == 'x')
-				return (false);
+				return (0);
 			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] != 'O')
 				x++;
 			i++;
@@ -125,10 +125,10 @@ bool	check_figure(int x, int y)
 			y++;
 		j++;
 	}
-	return ((index == 1) ? true : false);
+	return ((index == 1) ? 1 : 0);
 }
 
-bool	check_current_token_line(int j)
+int		check_current_token_line(int j)
 {
 	int		i;
 
@@ -136,9 +136,9 @@ bool	check_current_token_line(int j)
 	while (i--)
 	{
 		if (g_filler->token[j][i] == '*')
-			return (true);
+			return (1);
 	}
-	return (false);
+	return (0);
 }
 
 void	best_cpu(int tmp_cpu, int x, int y)
@@ -180,7 +180,7 @@ int		find_cpu(int x, int y)
 	return (cpu);
 }
 
-void	find_result()
+void	find_result(void)
 {
 	int		x;
 	int		y;
@@ -204,181 +204,4 @@ void	find_result()
 	}
 	g_res->y = g_cpu->y - g_res->diff_y;
 	g_res->x = g_cpu->x - g_res->diff_x;
-}
-
-
-
-
-
-
-
-
-
-
-
-void	make_next_step(void)
-{
-	int		tmp_x;
-	int		tmp_y;
-	int		y;
-	int		x;
-	t_cpu	*cpu_head;
-
-	y = 0;
-	cpu_head = create_n_clean_cpu_struct();
-	while (y < g_filler->y_max)
-	{
-		x = 0;
-		while (x < g_filler->x_max)
-		{
-			if (g_filler->board[y][x] == 'O' && check_figure(x, y) &&
-				check_next_line(y + 1))
-				max_cpu(find_cpu(x, y), x, y, cpu_head);
-			else if (g_filler->board[y][x] == 'O' && check_figure(x, y))
-			{
-				tmp_x = x;
-				tmp_y = y;
-			}
-			x++;
-		}
-		if (!(check_next_line(y + 1)))
-			max_cpu(find_cpu(x, y), tmp_x, tmp_y, cpu_head);
-		y++;
-	}
-}
-
-void	max_cpu(int cpu, int x, int y, t_cpu *cpu_head)
-{
-	if (cpu_head->cpu < cpu)
-	{
-		cpu_head->x = x;
-		cpu_head->y = y;
-		cpu_head->cpu = cpu;
-	}
-}
-
-int		find_cpu(int x, int y)
-{
-	int		j;
-	int		i;
-	int		opponent_x;
-	int		opponent_y;
-	int		cpu;
-
-	j = g_filler->y_max;
-	cpu = 0;
-	while (j--)
-	{
-		i = g_filler->x_max;
-		while (i--)
-		{
-			if ((g_filler->board[j][i] == 'X' || g_filler->board[j][i] == 'x') &&
-				check_prev_line(j - 1))
-				cpu = max_int(abc(j - y), abc(i - x));
-			else if (g_filler->board[j][i] == 'X' || g_filler->board[j][i] == 'x')
-			{
-				opponent_x = i;
-				opponent_y = j;
-			}
-		}
-		if (!(check_prev_line(j - 1)))
-			cpu = max_int(abc(opponent_y - y), abc(opponent_x - x));
-	}
-	return (cpu);
-}
-
-int		check_figure(int x, int y)
-{
-	int		i;
-	int		j;
-	int		index;
-
-	j = 0;
-	index = 0;
-	while (j < g_filler->y_token)
-	{
-		i = 0;
-		while (i < g_filler->x_token)
-		{
-			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] != '.')
-			{
-				index++;
-				x++;
-			}
-			if (index > 1)
-				return (0);
-			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] == '.')
-				x++;
-			i++;
-		}
-		if (check_current_token_line(j))
-			y++;
-		j++;
-	}
-	return (1);
-}
-
-t_cpu	*create_n_clean_cpu_struct()
-{
-	t_cpu	*cpu;
-
-	cpu = (t_cpu *)malloc(sizeof(*cpu));
-	cpu->x = 0;
-	cpu->y = 0;
-	cpu->cpu = 0;
-	return (cpu);
-}
-
-int		check_current_token_line(int j)
-{
-	int		i;
-
-	i = g_filler->x_token;
-	while (i--)
-	{
-		if (g_filler->token[j][i] == '*')
-			return (1);
-	}
-	return (0);
-}
-
-int		check_prev_line(int y)
-{
-	int		x;
-
-	x = g_filler->x_max;
-	while (x--)
-	{
-		if (g_filler->board[y][x] == 'X' || g_filler->board[y][x] == 'x')
-			return (0);
-	}
-	return (1);
-}
-
-int		abc(int i)
-{
-	if (i < 0)
-		return (-i);
-	return (i);
-}
-
-int		max_int(int i, int j)
-{
-	if (i <= j)
-		return (j);
-	return (i);
-}
-
-int		check_next_line(int y)
-{
-	int		x;
-
-	x = 0;
-	while (x < g_filler->x_max)
-	{
-		if (g_filler->board[y][x] == 'O')
-			return (0);
-		x++;
-	}
-	return (1);
 }
