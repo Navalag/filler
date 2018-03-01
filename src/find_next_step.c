@@ -12,19 +12,31 @@
 
 #include "../inc/filler.h"
 
+void	clean_cpu_and_res_structs(void)
+{
+	g_cpu->x = 0;
+	g_cpu->y = 0;
+	g_cpu->cpu = 10000;
+	g_res->x = 0;
+	g_res->y = 0;
+	g_res->diff_x = g_filler->x_max;
+	g_res->diff_y = g_filler->y_max;
+}
+
 void	make_next_step(void)
 {
 	g_cpu = (t_cpu *)malloc(sizeof(*g_cpu));
 	g_res = (t_res *)malloc(sizeof(*g_res));
+	clean_cpu_and_res_structs();
 	if (g_filler->x_o_team == 'O')
 	{
-		index_all_board('O');
-		find_best_move('O');
+		index_all_board('X');
+		find_best_move();
 	}
 	else if (g_filler->x_o_team == 'X')
 	{
-		index_all_board('X');
-		find_best_move('X');
+		index_all_board('O');
+		find_best_move();
 	}
 	find_result();
 }
@@ -59,25 +71,26 @@ void	index_all_board(char ch)
 
 void	surround_with_numbers(int x, int y, unsigned char i)
 {
-	if (g_filler->board[y][x - 1] == '.')
+	if (x >= 1 && g_filler->board[y][x - 1] == '.')
 		g_filler->board[y][x - 1] = i;
-	if (g_filler->board[y][x + 1] == '.')
+	if (x < g_filler->x_max - 1 && g_filler->board[y][x + 1] == '.')
 		g_filler->board[y][x + 1] = i;
-	if (g_filler->board[y - 1][x] == '.')
+	if (y >= 1 && g_filler->board[y - 1][x] == '.')
 		g_filler->board[y - 1][x] = i;
-	if (g_filler->board[y + 1][x] == '.')
+	if (y < g_filler->y_max - 1 && g_filler->board[y + 1][x] == '.')
 		g_filler->board[y + 1][x] = i;
-	if (g_filler->board[y - 1][x - 1] == '.')
+	if (y >= 1 && x >= 1 && g_filler->board[y - 1][x - 1] == '.')
 		g_filler->board[y - 1][x - 1] = i;
-	if (g_filler->board[y - 1][x + 1] == '.')
+	if (y >= 1 && x < g_filler->x_max - 1 && g_filler->board[y - 1][x + 1] == '.')
 		g_filler->board[y - 1][x + 1] = i;
-	if (g_filler->board[y + 1][x - 1] == '.')
+	if (y < g_filler->y_max - 1 && x >= 1 && g_filler->board[y + 1][x - 1] == '.')
 		g_filler->board[y + 1][x - 1] = i;
-	if (g_filler->board[y + 1][x + 1] == '.')
+	if (y < g_filler->y_max - 1 && x < g_filler->x_max - 1 &&
+			g_filler->board[y + 1][x + 1] == '.')
 		g_filler->board[y + 1][x + 1] = i;
 }
 
-void	find_best_move(char ch)
+void	find_best_move(void)
 {
 	int		y;
 	int		x;
@@ -121,30 +134,21 @@ int		check_figure(int x, int y)
 				x++;
 			i++;
 		}
-		if (check_current_token_line(j))
+		if (ft_strchr(g_filler->token[j], '*'))
 			y++;
 		j++;
 	}
-	return ((index == 1) ? 1 : 0);
-}
-
-int		check_current_token_line(int j)
-{
-	int		i;
-
-	i = g_filler->x_token;
-	while (i--)
-	{
-		if (g_filler->token[j][i] == '*')
-			return (1);
-	}
-	return (0);
+	return (index == 1 ? 1 : 0);
 }
 
 void	best_cpu(int tmp_cpu, int x, int y)
 {
 	if (tmp_cpu < g_cpu->cpu)
 	{
+		ft_printf("x = %d\ny = %d\n", x, y);
+		ft_printf("cpu = %d\n", tmp_cpu);
+		ft_printf("g_cpu->x = %d\ng_cpu->y = %d\n", g_cpu->x, g_cpu->y);
+		ft_printf("g_cpu->cpu = %d\n", g_cpu->cpu);
 		g_cpu->x = x;
 		g_cpu->y = y;
 		g_cpu->cpu = tmp_cpu;
@@ -166,14 +170,14 @@ int		find_cpu(int x, int y)
 		{
 			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] == 'O')
 				x++;
-			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] != 'O')
+			else if (g_filler->token[j][i] == '*' && g_filler->board[y][x] != 'O')
 			{
 				cpu += g_filler->board[y][x];
 				x++;
 			}
 			i++;
 		}
-		if (check_current_token_line(j))
+		if (ft_strchr(g_filler->token[j], '*'))
 			y++;
 		j++;
 	}
@@ -186,7 +190,6 @@ void	find_result(void)
 	int		y;
 
 	y = 0;
-	x = 0;
 	while (y < g_filler->y_token)
 	{
 		x = 0;
@@ -197,7 +200,7 @@ void	find_result(void)
 					g_res->diff_x = x;
 			x++;
 		}
-		if (check_current_token_line(y))
+		if (ft_strchr(g_filler->token[y], '*'))
 			if (y < g_res->diff_y)
 				g_res->diff_y = y;
 		y++;

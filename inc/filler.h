@@ -58,11 +58,12 @@ void	read_input_and_fill_struct(int fd);
 void	make_next_step(void);
 void	index_all_board(char ch);
 void	surround_with_numbers(int x, int y, unsigned char i);
-void	find_best_move(char ch);
+void	find_best_move(void);
 int		check_figure(int x, int y);
 int		check_current_token_line(int j);
 void	best_cpu(int tmp_cpu, int x, int y);
 int		find_cpu(int x, int y);
 void	find_result(void);
+void	clean_cpu_and_res_structs(void);
 
 #endif
