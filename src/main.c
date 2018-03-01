@@ -84,6 +84,6 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	read_input_and_fill_struct(fd);
 	make_next_step();
-	ft_printf("%d %d\n", g_res->x, g_res->y);
+	ft_printf("%d %d\n", g_cpu->x, g_cpu->y);
 	return (0);
 }

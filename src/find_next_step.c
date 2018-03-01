@@ -19,8 +19,8 @@ void	clean_cpu_and_res_structs(void)
 	g_cpu->cpu = 10000;
 	g_res->x = 0;
 	g_res->y = 0;
-	g_res->diff_x = g_filler->x_max;
-	g_res->diff_y = g_filler->y_max;
+	g_res->diff_x = g_filler->x_token;
+	g_res->diff_y = g_filler->y_token;
 }
 
 void	make_next_step(void)
@@ -38,7 +38,7 @@ void	make_next_step(void)
 		index_all_board('O');
 		find_best_move();
 	}
-	find_result();
+	// find_result();
 }
 
 void	index_all_board(char ch)
@@ -117,26 +117,21 @@ int		check_figure(int x, int y)
 
 	j = 0;
 	index = 0;
-	while (j < g_filler->y_token)
+	while (j < g_filler->y_token && y < g_filler->y_max)
 	{
 		i = 0;
-		while (i < g_filler->x_token)
+		while (i < g_filler->x_token && x < g_filler->x_max)
 		{
 			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] == 'O')
-			{
 				index++;
-				x++;
-			}
 			if (index > 1 || g_filler->board[y][x] == 'X' ||
 				g_filler->board[y][x] == 'x')
 				return (0);
-			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] != 'O')
-				x++;
 			i++;
+			x++;
 		}
-		if (ft_strchr(g_filler->token[j], '*'))
-			y++;
 		j++;
+		y++;
 	}
 	return (index == 1 ? 1 : 0);
 }
@@ -184,27 +179,27 @@ int		find_cpu(int x, int y)
 	return (cpu);
 }
 
-void	find_result(void)
-{
-	int		x;
-	int		y;
+// void	find_result(void)
+// {
+// 	int		x;
+// 	int		y;
 
-	y = 0;
-	while (y < g_filler->y_token)
-	{
-		x = 0;
-		while (x < g_filler->x_token)
-		{
-			if (g_filler->token[y][x] == '*')
-				if (x < g_res->diff_x)
-					g_res->diff_x = x;
-			x++;
-		}
-		if (ft_strchr(g_filler->token[y], '*'))
-			if (y < g_res->diff_y)
-				g_res->diff_y = y;
-		y++;
-	}
-	g_res->y = g_cpu->y - g_res->diff_y;
-	g_res->x = g_cpu->x - g_res->diff_x;
-}
+// 	y = 0;
+// 	while (y < g_filler->y_token)
+// 	{
+// 		x = 0;
+// 		while (x < g_filler->x_token)
+// 		{
+// 			if (g_filler->token[y][x] == '*')
+// 				if (x < g_res->diff_x)
+// 					g_res->diff_x = x;
+// 			x++;
+// 		}
+// 		if (ft_strchr(g_filler->token[y], '*'))
+// 			if (y < g_res->diff_y)
+// 				g_res->diff_y = y;
+// 		y++;
+// 	}
+// 	g_res->y = g_cpu->y - g_res->diff_y;
+// 	g_res->x = g_cpu->x - g_res->diff_x;
+// }
