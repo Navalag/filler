@@ -69,7 +69,7 @@ int		check_neighbors(int y, int x)
 		return (1);
 	return (0);
 }
-
+asfsd
 void	surround_with_numbers(int y, int x, int i)
 {
 	if (g_filler->board[y][x - 1] == '.')
