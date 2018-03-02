@@ -38,7 +38,6 @@ void	make_next_step(void)
 		index_all_board('O');
 		find_best_move();
 	}
-	// find_result();
 }
 
 void	index_all_board(char ch)
@@ -47,11 +46,10 @@ void	index_all_board(char ch)
 	int				x;
 	unsigned char	i;
 
-	i = 0;
+	i = '1';
 	while (ft_strchr(g_filler->board[0], '.'))
 	{
 		y = 0;
-		i++;
 		while (y < g_filler->y_max)
 		{
 			x = 0;
@@ -59,14 +57,20 @@ void	index_all_board(char ch)
 			{
 				if (g_filler->board[y][x] == i - 1)
 					surround_with_numbers(x, y, i);
-				else if (i == 1 && (g_filler->board[y][x] == ch ||
+				else if ((g_filler->board[y][x] == ch ||
 						g_filler->board[y][x] == ch + 32))
 					surround_with_numbers(x, y, i);
 				x++;
 			}
 			y++;
 		}
+		i++;
 	}
+	// if (g_filler->board[y][x] == 'X'
+	// || g_filler->board[y][x] == 'x'
+	// || g_filler->board[y][x] == 'O'
+	// || g_filler->board[y][x] == 'o')
+	// 	i++;
 }
 
 void	surround_with_numbers(int x, int y, unsigned char i)
@@ -96,6 +100,9 @@ void	find_best_move(void)
 	int		x;
 
 	y = 0;
+	// int d = -1;
+	// while (d++ < 24)
+	// 	ft_printf("%s\n", g_filler->board[d]);
 	while (y < g_filler->y_max)
 	{
 		x = 0;
@@ -114,18 +121,24 @@ int		check_figure(int x, int y)
 	int		i;
 	int		j;
 	int		index;
+	int		copy_x;
 
 	j = 0;
 	index = 0;
+	copy_x = x;
+	// if ((g_filler->y_token + y) <= g_filler->y_max + 1 ||
+	// 	(g_filler->x_token + x) <= g_filler->x_max + 1)
+	// 	return (0);
 	while (j < g_filler->y_token && y < g_filler->y_max)
 	{
 		i = 0;
+		x = copy_x;
 		while (i < g_filler->x_token && x < g_filler->x_max)
 		{
 			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] == 'O')
 				index++;
-			if (index > 1 || g_filler->board[y][x] == 'X' ||
-				g_filler->board[y][x] == 'x')
+			if (index > 1 || ((g_filler->board[y][x] == 'X' ||
+				g_filler->board[y][x] == 'x') && g_filler->token[j][i] == '*'))
 				return (0);
 			i++;
 			x++;
@@ -133,6 +146,13 @@ int		check_figure(int x, int y)
 		j++;
 		y++;
 	}
+	// if (index == 1)
+	// {
+		ft_printf("g_cpu->x = %d\n", g_cpu->x);
+		ft_printf("g_cpu->y = %d\n", g_cpu->y);
+		ft_printf("g_cpu->cpu = %d\n", g_cpu->cpu);
+		ft_printf("index = %d\n", index);
+	// }
 	return (index == 1 ? 1 : 0);
 }
 
@@ -140,10 +160,6 @@ void	best_cpu(int tmp_cpu, int x, int y)
 {
 	if (tmp_cpu < g_cpu->cpu)
 	{
-		ft_printf("x = %d\ny = %d\n", x, y);
-		ft_printf("cpu = %d\n", tmp_cpu);
-		ft_printf("g_cpu->x = %d\ng_cpu->y = %d\n", g_cpu->x, g_cpu->y);
-		ft_printf("g_cpu->cpu = %d\n", g_cpu->cpu);
 		g_cpu->x = x;
 		g_cpu->y = y;
 		g_cpu->cpu = tmp_cpu;
@@ -178,28 +194,3 @@ int		find_cpu(int x, int y)
 	}
 	return (cpu);
 }
-
-// void	find_result(void)
-// {
-// 	int		x;
-// 	int		y;
-
-// 	y = 0;
-// 	while (y < g_filler->y_token)
-// 	{
-// 		x = 0;
-// 		while (x < g_filler->x_token)
-// 		{
-// 			if (g_filler->token[y][x] == '*')
-// 				if (x < g_res->diff_x)
-// 					g_res->diff_x = x;
-// 			x++;
-// 		}
-// 		if (ft_strchr(g_filler->token[y], '*'))
-// 			if (y < g_res->diff_y)
-// 				g_res->diff_y = y;
-// 		y++;
-// 	}
-// 	g_res->y = g_cpu->y - g_res->diff_y;
-// 	g_res->x = g_cpu->x - g_res->diff_x;
-// }
