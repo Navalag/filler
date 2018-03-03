@@ -126,9 +126,9 @@ int		check_figure(int x, int y)
 	j = 0;
 	index = 0;
 	copy_x = x;
-	if ((g_filler->y_token + y) <= g_filler->y_max + 1 ||
-		(g_filler->x_token + x) <= g_filler->x_max + 1)
-		return (0);
+	// if ((g_filler->y_token + y) <= g_filler->y_max + 1 ||
+	// 	(g_filler->x_token + x) <= g_filler->x_max + 1)
+	// 	return (0);
 	while (j < g_filler->y_token && y < g_filler->y_max)
 	{
 		i = 0;
@@ -158,9 +158,9 @@ int		check_figure(int x, int y)
 
 void	best_cpu(int tmp_cpu, int x, int y)
 {
-	ft_printf("\ntmp_cpu = %d\n", tmp_cpu);
-	ft_printf("x = %d\n", x);
-	ft_printf("y = %d\n", y);
+	// ft_printf("\ntmp_cpu = %d\n", tmp_cpu);
+	// ft_printf("x = %d\n", x);
+	// ft_printf("y = %d\n", y);
 	if (tmp_cpu < g_cpu->cpu)
 	{
 		g_cpu->x = x;

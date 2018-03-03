@@ -45,6 +45,7 @@ void	fill_board_with_lines(int fd)
 
 	i = 0;
 	get_next_line(fd, &line); // skip line
+	dprintf(g_filler->fd_test, "%s\n", line);
 	free(line);
 	while (i < g_filler->y_max && get_next_line(fd, &line))
 	{
@@ -80,21 +81,17 @@ void	read_input_and_fill_struct(int fd)
 		g_filler->board[g_filler->y_max] = 0;
 		free(line);
 		fill_board_with_lines(fd);
+		make_next_step();
+		ft_printf("%d %d\n", g_cpu->x, g_cpu->y);
 	}
 }
 
-int		main(int argc, char **argv)
+int		main(void)
 {
-	int 		fd;
-	(void)argc;
-	(void)argv;
-
 	g_filler = (t_game_elem *)malloc(sizeof(*g_filler));
 	g_filler->fd_test = open("test_map.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	// fd = open(argv[1], O_RDONLY);
-	fd = 0;
-	read_input_and_fill_struct(fd);
-	make_next_step();
-	ft_printf("%d %d\n", g_cpu->x, g_cpu->y);
+	// fd = 0;
+	read_input_and_fill_struct(0);
 	return (0);
 }
