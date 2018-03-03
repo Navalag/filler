@@ -27,9 +27,9 @@ void	fill_token_with_figure(int fd)
 	g_filler->token = (char **)malloc(sizeof(char *) * g_filler->y_token + 1);
 	g_filler->token[g_filler->y_token] = 0;
 	free(line);
-	while (get_next_line(fd, &line) && i < g_filler->y_token)
+	while (i < g_filler->y_token)
 	{
-		// g_filler->token[i] = ft_strnew(g_filler->x_token + 1);
+		get_next_line(fd, &line);
 		g_filler->token[i] = ft_strdup(line);
 		dprintf(g_filler->fd_test, "%s\n", line);
 		// ft_printf("g_filler->token[%i]: |%s|\n", i, g_filler->token[i]);
@@ -47,9 +47,9 @@ void	fill_board_with_lines(int fd)
 	get_next_line(fd, &line); // skip line
 	dprintf(g_filler->fd_test, "%s\n", line);
 	free(line);
-	while (i < g_filler->y_max && get_next_line(fd, &line))
+	while (i < g_filler->y_max)
 	{
-		// g_filler->board[i] = ft_strnew(g_filler->x_max + 1);
+		get_next_line(fd, &line);
 		g_filler->board[i] = ft_strdup(line + 4);
 		dprintf(g_filler->fd_test, "%s\n", line);
 		// ft_printf("g_filler->board[%i]: |%s|\n", i, g_filler->board[i]);
