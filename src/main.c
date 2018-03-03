@@ -19,10 +19,11 @@ void	fill_token_with_figure(int fd)
 
 	i = 0;
 	get_next_line(fd, &line);
-	ft_printf("line: |%s|\n", line);
+	dprintf(g_filler->fd_test, "%s\n", line);
+	// ft_printf("line: |%s|\n", line);
 	g_filler->y_token = ft_atoi(line + 6);
 	g_filler->x_token = ft_atoi(line + 8);
-	ft_printf("y_token = %d, x_token = %d\n", g_filler->y_token, g_filler->x_token);
+	// ft_printf("y_token = %d, x_token = %d\n", g_filler->y_token, g_filler->x_token);
 	g_filler->token = (char **)malloc(sizeof(char *) * g_filler->y_token + 1);
 	g_filler->token[g_filler->y_token] = 0;
 	free(line);
@@ -30,7 +31,8 @@ void	fill_token_with_figure(int fd)
 	{
 		// g_filler->token[i] = ft_strnew(g_filler->x_token + 1);
 		g_filler->token[i] = ft_strdup(line);
-		ft_printf("g_filler->token[%i]: |%s|\n", i, g_filler->token[i]);
+		dprintf(g_filler->fd_test, "%s\n", line);
+		// ft_printf("g_filler->token[%i]: |%s|\n", i, g_filler->token[i]);
 		free(line);
 		i++;
 	}
@@ -48,7 +50,8 @@ void	fill_board_with_lines(int fd)
 	{
 		// g_filler->board[i] = ft_strnew(g_filler->x_max + 1);
 		g_filler->board[i] = ft_strdup(line + 4);
-		ft_printf("g_filler->board[%i]: |%s|\n", i, g_filler->board[i]);
+		dprintf(g_filler->fd_test, "%s\n", line);
+		// ft_printf("g_filler->board[%i]: |%s|\n", i, g_filler->board[i]);
 		free(line);
 		i++;
 	}
@@ -61,27 +64,35 @@ void	read_input_and_fill_struct(int fd)
 
 	get_next_line(fd, &line);
 	g_filler->x_o_team = (line[10] == '1') ? 'O' : 'X';
-	ft_printf("x_o_team = %c\n", g_filler->x_o_team); // test
+	// ft_printf("x_o_team = %c\n", g_filler->x_o_team); // test
 	dprintf(g_filler->fd_test, "%s\n", line);
 	free(line);
-	get_next_line(fd, &line);
-	g_filler->y_max = ft_atoi(line + 8);
-	g_filler->x_max = ft_atoi(line + 11);
-	ft_printf("y_max = %d, x_max = %d\n", g_filler->y_max, g_filler->x_max); // test
-	g_filler->board = (char **)malloc(sizeof(char *) * g_filler->y_max + 1);
-	g_filler->board[g_filler->y_max] = 0;
-	free(line);
-	fill_board_with_lines(fd);
+	while (1)
+	{
+		get_next_line(fd, &line);
+		dprintf(g_filler->fd_test, "%s\n", line);
+		if (line[0] == '=')
+			break ;
+		g_filler->y_max = ft_atoi(line + 8);
+		g_filler->x_max = ft_atoi(line + 11);
+		// ft_printf("y_max = %d, x_max = %d\n", g_filler->y_max, g_filler->x_max); // test
+		g_filler->board = (char **)malloc(sizeof(char *) * g_filler->y_max + 1);
+		g_filler->board[g_filler->y_max] = 0;
+		free(line);
+		fill_board_with_lines(fd);
+	}
 }
 
 int		main(int argc, char **argv)
 {
 	int 		fd;
 	(void)argc;
+	(void)argv;
 
 	g_filler = (t_game_elem *)malloc(sizeof(*g_filler));
 	g_filler->fd_test = open("test_map.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	fd = open(argv[1], O_RDONLY);
+	// fd = open(argv[1], O_RDONLY);
+	fd = 0;
 	read_input_and_fill_struct(fd);
 	make_next_step();
 	ft_printf("%d %d\n", g_cpu->x, g_cpu->y);
