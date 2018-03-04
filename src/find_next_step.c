@@ -12,32 +12,22 @@
 
 #include "../inc/filler.h"
 
-void	clean_cpu_and_res_structs(void)
+void	clean_structs(void)
 {
 	g_cpu->x = 0;
 	g_cpu->y = 0;
 	g_cpu->cpu = 10000;
-	g_res->x = 0;
-	g_res->y = 0;
-	g_res->diff_x = g_filler->x_token;
-	g_res->diff_y = g_filler->y_token;
 }
 
 void	make_next_step(void)
 {
 	g_cpu = (t_cpu *)malloc(sizeof(*g_cpu));
-	g_res = (t_res *)malloc(sizeof(*g_res));
-	clean_cpu_and_res_structs();
+	clean_structs();
 	if (g_filler->x_o_team == 'O')
-	{
 		index_all_board('X');
-		find_best_move();
-	}
 	else if (g_filler->x_o_team == 'X')
-	{
 		index_all_board('O');
-		find_best_move();
-	}
+	find_best_move(g_filler->x_o_team);
 }
 
 void	index_all_board(char ch)
@@ -94,7 +84,7 @@ void	surround_with_numbers(int x, int y, unsigned char i)
 		g_filler->board[y + 1][x + 1] = i;
 }
 
-void	find_best_move(void)
+void	find_best_move(char ch)
 {
 	int		y;
 	int		x;
@@ -105,8 +95,8 @@ void	find_best_move(void)
 		x = 0;
 		while (x < g_filler->x_max)
 		{
-			if (check_figure(x, y))
-				best_cpu(find_cpu(x, y), x, y);
+			if (check_figure(ch, x, y))
+				best_cpu(find_cpu(ch, x, y), x, y);
 			x++;
 		}
 		y++;
@@ -116,7 +106,7 @@ void	find_best_move(void)
 	// 	ft_printf("%s\n", g_filler->board[d]);
 }
 
-int		check_figure(int x, int y)
+int		check_figure(char ch, int x, int y)
 {
 	int		i;
 	int		j;
@@ -135,10 +125,11 @@ int		check_figure(int x, int y)
 		x = copy_x;
 		while (i < g_filler->x_token && x < g_filler->x_max)
 		{
-			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] == 'O')
+			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] == ch)
 				index++;
-			if (index > 1 || ((g_filler->board[y][x] == 'X' ||
-				g_filler->board[y][x] == 'x') && g_filler->token[j][i] == '*'))
+			if (index > 1 || ((g_filler->board[y][x] == (ch == 'O' ? 'X' : 'O') ||
+				g_filler->board[y][x] == (ch == 'O' ? 'x' : 'o'))
+				&& g_filler->token[j][i] == '*'))
 				return (0);
 			i++;
 			x++;
@@ -169,7 +160,7 @@ void	best_cpu(int tmp_cpu, int x, int y)
 	}
 }
 
-int		find_cpu(int x, int y)
+int		find_cpu(char ch, int x, int y)
 {
 	int		i;
 	int		j;
@@ -185,7 +176,8 @@ int		find_cpu(int x, int y)
 		x = copy_x;
 		while (i < g_filler->x_token)
 		{
-			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] != 'O')
+			if (g_filler->token[j][i] == '*'
+				&& g_filler->board[y][x] != (ch == 'O' ? 'O' : 'X'))
 				cpu += g_filler->board[y][x];
 			i++;
 			x++;

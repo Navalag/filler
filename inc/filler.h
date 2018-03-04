@@ -39,17 +39,8 @@ typedef struct	s_cpu
 	int		cpu;
 }				t_cpu;
 
-typedef struct	s_res
-{
-	int		x;
-	int		y;
-	int		diff_x;
-	int		diff_y;
-}				t_res;
-
 t_game_elem		*g_filler;
 t_cpu			*g_cpu;
-t_res			*g_res;
 
 void	fill_token_with_figure(int fd);
 void	fill_board_with_lines(int fd);
@@ -58,12 +49,10 @@ void	read_input_and_fill_struct(int fd);
 void	make_next_step(void);
 void	index_all_board(char ch);
 void	surround_with_numbers(int x, int y, unsigned char i);
-void	find_best_move(void);
-int		check_figure(int x, int y);
-int		check_current_token_line(int j);
+void	find_best_move(char ch);
+int		check_figure(char ch, int x, int y);
 void	best_cpu(int tmp_cpu, int x, int y);
-int		find_cpu(int x, int y);
-void	find_result(void);
-void	clean_cpu_and_res_structs(void);
+int		find_cpu(char ch, int x, int y);
+void	clean_structs(void);
 
 #endif
