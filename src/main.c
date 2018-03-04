@@ -68,12 +68,9 @@ void	read_input_and_fill_struct(int fd)
 	// ft_printf("x_o_team = %c\n", g_filler->x_o_team); // test
 	dprintf(g_filler->fd_test, "%s\n", line);
 	free(line);
-	while (1)
+	while (get_next_line(fd, &line))
 	{
-		get_next_line(fd, &line);
 		dprintf(g_filler->fd_test, "%s\n", line);
-		if (line[0] == '=')
-			break ;
 		g_filler->y_max = ft_atoi(line + 8);
 		g_filler->x_max = ft_atoi(line + 11);
 		// ft_printf("y_max = %d, x_max = %d\n", g_filler->y_max, g_filler->x_max); // test
@@ -82,7 +79,7 @@ void	read_input_and_fill_struct(int fd)
 		free(line);
 		fill_board_with_lines(fd);
 		make_next_step();
-		ft_printf("%d %d\n", g_cpu->x, g_cpu->y);
+		ft_printf("%d %d\n", g_cpu->y, g_cpu->x);
 	}
 }
 
@@ -90,8 +87,6 @@ int		main(void)
 {
 	g_filler = (t_game_elem *)malloc(sizeof(*g_filler));
 	g_filler->fd_test = open("test_map.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	// fd = open(argv[1], O_RDONLY);
-	// fd = 0;
 	read_input_and_fill_struct(0);
 	return (0);
 }
