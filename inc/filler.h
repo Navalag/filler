@@ -39,7 +39,7 @@ typedef struct	s_cpu
 	int		cpu;
 }				t_cpu;
 
-t_game_elem		*g_filler;
+t_game_elem		*g_f;
 t_cpu			*g_cpu;
 
 void	fill_token_with_figure(int fd);

@@ -23,11 +23,11 @@ void	make_next_step(void)
 {
 	g_cpu = (t_cpu *)malloc(sizeof(*g_cpu));
 	clean_structs();
-	if (g_filler->x_o_team == 'O')
+	if (g_f->x_o_team == 'O')
 		index_all_board('X');
-	else if (g_filler->x_o_team == 'X')
+	else if (g_f->x_o_team == 'X')
 		index_all_board('O');
-	find_best_move(g_filler->x_o_team);
+	find_best_move(g_f->x_o_team);
 }
 
 void	index_all_board(char ch)
@@ -37,18 +37,18 @@ void	index_all_board(char ch)
 	unsigned char	i;
 
 	i = '0';
-	while (ft_strchr(g_filler->board[0], '.')) // can be bug with 'X' 'O' indexes
+	while (ft_strchr(g_f->board[0], '.')) // can be bug with 'X' 'O' indexes
 	{
 		y = 0;
-		while (y < g_filler->y_max)
+		while (y < g_f->y_max)
 		{
 			x = 0;
-			while (x < g_filler->x_max)
+			while (x < g_f->x_max)
 			{
-				if (g_filler->board[y][x] == i - 1)
+				if (g_f->board[y][x] == i - 1)
 					surround_with_numbers(x, y, i);
-				else if ((g_filler->board[y][x] == ch ||
-						g_filler->board[y][x] == ch + 32))
+				else if ((g_f->board[y][x] == ch ||
+						g_f->board[y][x] == ch + 32))
 					surround_with_numbers(x, y, i);
 				x++;
 			}
@@ -65,23 +65,23 @@ void	index_all_board(char ch)
 
 void	surround_with_numbers(int x, int y, unsigned char i)
 {
-	if (x >= 1 && g_filler->board[y][x - 1] == '.')
-		g_filler->board[y][x - 1] = i;
-	if (x < g_filler->x_max - 1 && g_filler->board[y][x + 1] == '.')
-		g_filler->board[y][x + 1] = i;
-	if (y >= 1 && g_filler->board[y - 1][x] == '.')
-		g_filler->board[y - 1][x] = i;
-	if (y < g_filler->y_max - 1 && g_filler->board[y + 1][x] == '.')
-		g_filler->board[y + 1][x] = i;
-	if (y >= 1 && x >= 1 && g_filler->board[y - 1][x - 1] == '.')
-		g_filler->board[y - 1][x - 1] = i;
-	if (y >= 1 && x < g_filler->x_max - 1 && g_filler->board[y - 1][x + 1] == '.')
-		g_filler->board[y - 1][x + 1] = i;
-	if (y < g_filler->y_max - 1 && x >= 1 && g_filler->board[y + 1][x - 1] == '.')
-		g_filler->board[y + 1][x - 1] = i;
-	if (y < g_filler->y_max - 1 && x < g_filler->x_max - 1 &&
-			g_filler->board[y + 1][x + 1] == '.')
-		g_filler->board[y + 1][x + 1] = i;
+	if (x >= 1 && g_f->board[y][x - 1] == '.')
+		g_f->board[y][x - 1] = i;
+	if (x < g_f->x_max - 1 && g_f->board[y][x + 1] == '.')
+		g_f->board[y][x + 1] = i;
+	if (y >= 1 && g_f->board[y - 1][x] == '.')
+		g_f->board[y - 1][x] = i;
+	if (y < g_f->y_max - 1 && g_f->board[y + 1][x] == '.')
+		g_f->board[y + 1][x] = i;
+	if (y >= 1 && x >= 1 && g_f->board[y - 1][x - 1] == '.')
+		g_f->board[y - 1][x - 1] = i;
+	if (y >= 1 && x < g_f->x_max - 1 && g_f->board[y - 1][x + 1] == '.')
+		g_f->board[y - 1][x + 1] = i;
+	if (y < g_f->y_max - 1 && x >= 1 && g_f->board[y + 1][x - 1] == '.')
+		g_f->board[y + 1][x - 1] = i;
+	if (y < g_f->y_max - 1 && x < g_f->x_max - 1 &&
+			g_f->board[y + 1][x + 1] == '.')
+		g_f->board[y + 1][x + 1] = i;
 }
 
 void	find_best_move(char ch)
@@ -90,10 +90,10 @@ void	find_best_move(char ch)
 	int		x;
 
 	y = 0;
-	while (y < g_filler->y_max)
+	while (y < g_f->y_max)
 	{
 		x = 0;
-		while (x < g_filler->x_max)
+		while (x < g_f->x_max)
 		{
 			if (check_figure(ch, x, y))
 				best_cpu(find_cpu(ch, x, y), x, y);
@@ -116,20 +116,20 @@ int		check_figure(char ch, int x, int y)
 	j = 0;
 	index = 0;
 	copy_x = x;
-	if ((g_filler->y_token + y) >= g_filler->y_max + 1 ||
-		(g_filler->x_token + x) >= g_filler->x_max + 1)
+	if ((g_f->y_token + y) >= g_f->y_max + 1 ||
+		(g_f->x_token + x) >= g_f->x_max + 1)
 		return (0);
-	while (j < g_filler->y_token && y < g_filler->y_max)
+	while (j < g_f->y_token && y < g_f->y_max)
 	{
 		i = 0;
 		x = copy_x;
-		while (i < g_filler->x_token && x < g_filler->x_max)
+		while (i < g_f->x_token && x < g_f->x_max)
 		{
-			if (g_filler->token[j][i] == '*' && g_filler->board[y][x] == ch)
+			if (g_f->token[j][i] == '*' && g_f->board[y][x] == ch)
 				index++;
-			if (index > 1 || ((g_filler->board[y][x] == (ch == 'O' ? 'X' : 'O') ||
-				g_filler->board[y][x] == (ch == 'O' ? 'x' : 'o'))
-				&& g_filler->token[j][i] == '*'))
+			if (index > 1 || ((g_f->board[y][x] == (ch == 'O' ? 'X' : 'O') ||
+				g_f->board[y][x] == (ch == 'O' ? 'x' : 'o'))
+				&& g_f->token[j][i] == '*'))
 				return (0);
 			i++;
 			x++;
@@ -170,15 +170,15 @@ int		find_cpu(char ch, int x, int y)
 	j = 0;
 	cpu = 0;
 	copy_x = x;
-	while (j < g_filler->y_token)
+	while (j < g_f->y_token)
 	{
 		i = 0;
 		x = copy_x;
-		while (i < g_filler->x_token)
+		while (i < g_f->x_token)
 		{
-			if (g_filler->token[j][i] == '*'
-				&& g_filler->board[y][x] != (ch == 'O' ? 'O' : 'X'))
-				cpu += g_filler->board[y][x];
+			if (g_f->token[j][i] == '*'
+				&& g_f->board[y][x] != (ch == 'O' ? 'O' : 'X'))
+				cpu += g_f->board[y][x];
 			i++;
 			x++;
 		}
