@@ -24,28 +24,21 @@ void	make_next_step(void)
 	g_cpu = (t_cpu *)malloc(sizeof(*g_cpu));
 	clean_structs();
 	if (g_f->x_o_team == 'O')
-	{
-		// if (g_f->x_max > 40)
-		// 	index_down_bigmap_position();
 		index_all_board('X');
-	}
 	else
 		index_all_board('O');
 	find_best_move(g_f->x_o_team);
 }
-
-// void	index_down_bigmap_position(void)
-// {
-	
-// }
 
 void	index_all_board(char ch)
 {
 	int				y;
 	int				x;
 	unsigned char	i;
+	int				index;
 
 	i = '0';
+	index = 0;
 	while (check_free_space()) // can be bug with 'X' 'O' indexes
 	{
 		y = 0;
@@ -54,7 +47,9 @@ void	index_all_board(char ch)
 			x = 0;
 			while (x < g_f->x_max)
 			{
-				if (g_f->board[y][x] == i - 1)
+				if (index == 1 && g_f->board[y][x] == i - 2)
+					surround_with_numbers(x, y, i);
+				else if (g_f->board[y][x] == i - 1)
 					surround_with_numbers(x, y, i);
 				else if ((g_f->board[y][x] == ch || g_f->board[y][x] == ch + 32))
 					surround_with_numbers(x, y, i);
@@ -63,12 +58,13 @@ void	index_all_board(char ch)
 			y++;
 		}
 		i++;
+		index = 0;
+		if (i == 'X' || i == 'x' || i == 'O' || i == 'o')
+		{
+			i++;
+			index = 1;
+		}
 	}
-	// if (g_filler->board[y][x] == 'X'
-	// || g_filler->board[y][x] == 'x'
-	// || g_filler->board[y][x] == 'O'
-	// || g_filler->board[y][x] == 'o')
-	// 	i++;
 }
 
 int		check_free_space(void)
@@ -130,8 +126,8 @@ void	find_best_move(char ch)
 		y++;
 	}
 	// int d = -1;
-	// while (d++ < 23)
-	// 	ft_printf("%s\n", g_filler->board[d]);
+	// while (++d < 24)
+	// 	ft_printf("%s\n", g_f->board[d]);
 }
 
 int		check_figure(char ch, int x, int y)
