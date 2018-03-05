@@ -24,11 +24,20 @@ void	make_next_step(void)
 	g_cpu = (t_cpu *)malloc(sizeof(*g_cpu));
 	clean_structs();
 	if (g_f->x_o_team == 'O')
+	{
+		// if (g_f->x_max > 40)
+		// 	index_down_bigmap_position();
 		index_all_board('X');
+	}
 	else
 		index_all_board('O');
 	find_best_move(g_f->x_o_team);
 }
+
+// void	index_down_bigmap_position(void)
+// {
+	
+// }
 
 void	index_all_board(char ch)
 {
