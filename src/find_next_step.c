@@ -25,7 +25,7 @@ void	make_next_step(void)
 	clean_structs();
 	if (g_f->x_o_team == 'O')
 		index_all_board('X');
-	else if (g_f->x_o_team == 'X')
+	else
 		index_all_board('O');
 	find_best_move(g_f->x_o_team);
 }
@@ -37,7 +37,7 @@ void	index_all_board(char ch)
 	unsigned char	i;
 
 	i = '0';
-	while (ft_strchr(g_f->board[0], '.')) // can be bug with 'X' 'O' indexes
+	while (check_free_space()) // can be bug with 'X' 'O' indexes
 	{
 		y = 0;
 		while (y < g_f->y_max)
@@ -47,8 +47,7 @@ void	index_all_board(char ch)
 			{
 				if (g_f->board[y][x] == i - 1)
 					surround_with_numbers(x, y, i);
-				else if ((g_f->board[y][x] == ch ||
-						g_f->board[y][x] == ch + 32))
+				else if ((g_f->board[y][x] == ch || g_f->board[y][x] == ch + 32))
 					surround_with_numbers(x, y, i);
 				x++;
 			}
@@ -61,6 +60,26 @@ void	index_all_board(char ch)
 	// || g_filler->board[y][x] == 'O'
 	// || g_filler->board[y][x] == 'o')
 	// 	i++;
+}
+
+int		check_free_space(void)
+{
+	int		x;
+	int		y;
+
+	y = 0;
+	while (y < g_f->y_max)
+	{
+		x = 0;
+		while (x < g_f->x_max)
+		{
+			if (g_f->board[y][x] == '.')
+				return (1);
+			x++;
+		}
+		y++;
+	}
+	return (0);
 }
 
 void	surround_with_numbers(int x, int y, unsigned char i)
@@ -127,8 +146,8 @@ int		check_figure(char ch, int x, int y)
 		{
 			if (g_f->token[j][i] == '*' && g_f->board[y][x] == ch)
 				index++;
-			if (index > 1 || ((g_f->board[y][x] == (ch == 'O' ? 'X' : 'O') ||
-				g_f->board[y][x] == (ch == 'O' ? 'x' : 'o'))
+			if (index > 1 || ((g_f->board[y][x] == (ch == 'O' ? 'X' : 'O')
+				|| g_f->board[y][x] == (ch == 'O' ? 'x' : 'o'))
 				&& g_f->token[j][i] == '*'))
 				return (0);
 			i++;
@@ -137,21 +156,11 @@ int		check_figure(char ch, int x, int y)
 		j++;
 		y++;
 	}
-	// if (index == 1)
-	// {
-	// 	ft_printf("g_cpu->x = %d\n", g_cpu->x);
-	// 	ft_printf("g_cpu->y = %d\n", g_cpu->y);
-	// 	ft_printf("g_cpu->cpu = %d\n", g_cpu->cpu);
-	// 	ft_printf("index = %d\n", index);
-	// }
 	return (index == 1 ? 1 : 0);
 }
 
 void	best_cpu(int tmp_cpu, int x, int y)
 {
-	// ft_printf("\ntmp_cpu = %d\n", tmp_cpu);
-	// ft_printf("x = %d\n", x);
-	// ft_printf("y = %d\n", y);
 	if (tmp_cpu < g_cpu->cpu)
 	{
 		g_cpu->x = x;

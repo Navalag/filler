@@ -44,15 +44,17 @@ t_cpu			*g_cpu;
 
 void	fill_token_with_figure(int fd);
 void	fill_board_with_lines(int fd);
-void	read_input_and_fill_struct(int fd);
 
 void	make_next_step(void);
 void	index_all_board(char ch);
 void	surround_with_numbers(int x, int y, unsigned char i);
+int		check_free_space(void);
+
 void	find_best_move(char ch);
 int		check_figure(char ch, int x, int y);
 void	best_cpu(int tmp_cpu, int x, int y);
 int		find_cpu(char ch, int x, int y);
+
 void	clean_structs(void);
 
 #endif
