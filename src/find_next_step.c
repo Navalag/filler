@@ -23,30 +23,25 @@ void	find_best_move(char ch)
 		x = 0;
 		while (x < g_f->x_board_max)
 		{
-			if (check_figure(ch, x, y))
+			if ((g_f->y_token_max + y) >= g_f->y_board_max + 1 ||
+				(g_f->x_token_max + x) >= g_f->x_board_max + 1)
+				continue ;
+			else if (check_figure(ch, x, y, x))
 				best_cpu(find_cpu(ch, x, y), x, y);
 			x++;
 		}
 		y++;
 	}
-	// int d = -1;
-	// while (++d < 24)
-	// 	ft_printf("%s\n", g_f->board[d]);
 }
 
-int		check_figure(char ch, int x, int y)
+int		check_figure(char ch, int x, int y, int copy_x)
 {
 	int		i;
 	int		j;
 	int		index;
-	int		copy_x;
 
 	j = 0;
 	index = 0;
-	copy_x = x;
-	if ((g_f->y_token_max + y) >= g_f->y_board_max + 1 ||
-		(g_f->x_token_max + x) >= g_f->x_board_max + 1)
-		return (0);
 	while (j < g_f->y_token_max && y < g_f->y_board_max)
 	{
 		i = 0;
@@ -55,9 +50,9 @@ int		check_figure(char ch, int x, int y)
 		{
 			if (g_f->token[j][i] == '*' && g_f->board[y][x] == ch)
 				index++;
-			if (index > 1 || ((g_f->board[y][x] == (ch == 'O' ? 'X' : 'O')
-				|| g_f->board[y][x] == (ch == 'O' ? 'x' : 'o'))
-				&& g_f->token[j][i] == '*'))
+			if (index > 1 || (g_f->token[j][i] == '*'
+				&& (g_f->board[y][x] == (ch == 'O' ? 'x' : 'o')
+				|| g_f->board[y][x] == (ch == 'O' ? 'X' : 'O'))))
 				return (0);
 			i++;
 			x++;

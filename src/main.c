@@ -22,7 +22,7 @@ void	fill_token_with_figure(void)
 	dprintf(g_f->fd_test, "%s\n", line);
 	g_f->y_token_max = ft_atoi(line + 6);
 	while (ft_isdigit(*(line + 6 + i)))
-			i++;
+		i++;
 	g_f->x_token_max = ft_atoi(line + 6 + i);
 	g_f->token = (char **)malloc(sizeof(char *) * g_f->y_token_max + 1);
 	g_f->token[g_f->y_token_max] = 0;
@@ -44,7 +44,7 @@ void	fill_board_with_lines(void)
 	int		i;
 
 	i = 0;
-	get_next_line(0, &line); // skip line
+	get_next_line(0, &line);
 	dprintf(g_f->fd_test, "%s\n", line);
 	free(line);
 	while (i < g_f->y_board_max)

@@ -12,15 +12,17 @@
 
 #include "../inc/filler.h"
 
+/*
+** Following function finds index for every cell on the board.
+*/
+
 void	index_all_board(char ch)
 {
 	int				y;
 	int				x;
 	unsigned char	i;
-	int				index;
 
 	i = '0';
-	index = 0;
 	while (check_free_space())
 	{
 		y = 0;
@@ -29,23 +31,12 @@ void	index_all_board(char ch)
 			x = 0;
 			while (x < g_f->x_board_max)
 			{
-				if (index == 1 && g_f->board[y][x] == i - 2)
-					surround_with_numbers(x, y, i);
-				else if (g_f->board[y][x] == i - 1)
-					surround_with_numbers(x, y, i);
-				else if ((g_f->board[y][x] == ch || g_f->board[y][x] == ch + 32))
-					surround_with_numbers(x, y, i);
+				check_and_surround(x, y, i, ch);
 				x++;
 			}
 			y++;
 		}
 		i++;
-		index = 0;
-		if (i == 'X' || i == 'x' || i == 'O' || i == 'o')
-		{
-			i++;
-			index = 1;
-		}
 	}
 }
 
@@ -67,6 +58,24 @@ int		check_free_space(void)
 		y++;
 	}
 	return (0);
+}
+
+void	check_and_surround(int x, int y, unsigned char i, char ch)
+{
+	int		index;
+
+	index = 0;
+	if (i == 'X' || i == 'x' || i == 'O' || i == 'o')
+	{
+		i++;
+		index = 1;
+	}
+	if (index == 1 && g_f->board[y][x] == i - 2)
+		surround_with_numbers(x, y, i);
+	else if (g_f->board[y][x] == i - 1)
+		surround_with_numbers(x, y, i);
+	else if ((g_f->board[y][x] == ch || g_f->board[y][x] == ch + 32))
+		surround_with_numbers(x, y, i);
 }
 
 /*
