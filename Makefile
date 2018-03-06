@@ -22,7 +22,9 @@ LIB_DIR := ./libftprintf/
 # project source files
 
 SRC =	main.c \
-		find_next_step.c
+		find_next_step.c \
+		index_board_func.c \
+		aditional_func.c
 
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 

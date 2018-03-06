@@ -12,112 +12,16 @@
 
 #include "../inc/filler.h"
 
-void	clean_structs(void)
-{
-	g_cpu->x = 0;
-	g_cpu->y = 0;
-	g_cpu->cpu = 10000;
-}
-
-void	make_next_step(void)
-{
-	g_cpu = (t_cpu *)malloc(sizeof(*g_cpu));
-	clean_structs();
-	if (g_f->x_o_team == 'O')
-		index_all_board('X');
-	else
-		index_all_board('O');
-	find_best_move(g_f->x_o_team);
-}
-
-void	index_all_board(char ch)
-{
-	int				y;
-	int				x;
-	unsigned char	i;
-	int				index;
-
-	i = '0';
-	index = 0;
-	while (check_free_space()) // can be bug with 'X' 'O' indexes
-	{
-		y = 0;
-		while (y < g_f->y_max)
-		{
-			x = 0;
-			while (x < g_f->x_max)
-			{
-				if (index == 1 && g_f->board[y][x] == i - 2)
-					surround_with_numbers(x, y, i);
-				else if (g_f->board[y][x] == i - 1)
-					surround_with_numbers(x, y, i);
-				else if ((g_f->board[y][x] == ch || g_f->board[y][x] == ch + 32))
-					surround_with_numbers(x, y, i);
-				x++;
-			}
-			y++;
-		}
-		i++;
-		index = 0;
-		if (i == 'X' || i == 'x' || i == 'O' || i == 'o')
-		{
-			i++;
-			index = 1;
-		}
-	}
-}
-
-int		check_free_space(void)
-{
-	int		x;
-	int		y;
-
-	y = 0;
-	while (y < g_f->y_max)
-	{
-		x = 0;
-		while (x < g_f->x_max)
-		{
-			if (g_f->board[y][x] == '.')
-				return (1);
-			x++;
-		}
-		y++;
-	}
-	return (0);
-}
-
-void	surround_with_numbers(int x, int y, unsigned char i)
-{
-	if (x >= 1 && g_f->board[y][x - 1] == '.')
-		g_f->board[y][x - 1] = i;
-	if (x < g_f->x_max - 1 && g_f->board[y][x + 1] == '.')
-		g_f->board[y][x + 1] = i;
-	if (y >= 1 && g_f->board[y - 1][x] == '.')
-		g_f->board[y - 1][x] = i;
-	if (y < g_f->y_max - 1 && g_f->board[y + 1][x] == '.')
-		g_f->board[y + 1][x] = i;
-	if (y >= 1 && x >= 1 && g_f->board[y - 1][x - 1] == '.')
-		g_f->board[y - 1][x - 1] = i;
-	if (y >= 1 && x < g_f->x_max - 1 && g_f->board[y - 1][x + 1] == '.')
-		g_f->board[y - 1][x + 1] = i;
-	if (y < g_f->y_max - 1 && x >= 1 && g_f->board[y + 1][x - 1] == '.')
-		g_f->board[y + 1][x - 1] = i;
-	if (y < g_f->y_max - 1 && x < g_f->x_max - 1 &&
-			g_f->board[y + 1][x + 1] == '.')
-		g_f->board[y + 1][x + 1] = i;
-}
-
 void	find_best_move(char ch)
 {
 	int		y;
 	int		x;
 
 	y = 0;
-	while (y < g_f->y_max)
+	while (y < g_f->y_board_max)
 	{
 		x = 0;
-		while (x < g_f->x_max)
+		while (x < g_f->x_board_max)
 		{
 			if (check_figure(ch, x, y))
 				best_cpu(find_cpu(ch, x, y), x, y);
@@ -140,14 +44,14 @@ int		check_figure(char ch, int x, int y)
 	j = 0;
 	index = 0;
 	copy_x = x;
-	if ((g_f->y_token + y) >= g_f->y_max + 1 ||
-		(g_f->x_token + x) >= g_f->x_max + 1)
+	if ((g_f->y_token_max + y) >= g_f->y_board_max + 1 ||
+		(g_f->x_token_max + x) >= g_f->x_board_max + 1)
 		return (0);
-	while (j < g_f->y_token && y < g_f->y_max)
+	while (j < g_f->y_token_max && y < g_f->y_board_max)
 	{
 		i = 0;
 		x = copy_x;
-		while (i < g_f->x_token && x < g_f->x_max)
+		while (i < g_f->x_token_max && x < g_f->x_board_max)
 		{
 			if (g_f->token[j][i] == '*' && g_f->board[y][x] == ch)
 				index++;
@@ -184,14 +88,14 @@ int		find_cpu(char ch, int x, int y)
 	j = 0;
 	cpu = 0;
 	copy_x = x;
-	while (j < g_f->y_token)
+	while (j < g_f->y_token_max)
 	{
 		i = 0;
 		x = copy_x;
-		while (i < g_f->x_token)
+		while (i < g_f->x_token_max)
 		{
 			if (g_f->token[j][i] == '*'
-				&& g_f->board[y][x] != (ch == 'O' ? 'O' : 'X'))
+					&& g_f->board[y][x] != (ch == 'O' ? 'O' : 'X'))
 				cpu += g_f->board[y][x];
 			i++;
 			x++;

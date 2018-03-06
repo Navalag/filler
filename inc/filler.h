@@ -24,10 +24,10 @@ typedef struct	s_board
 	char	x_o_team;
 	char	**board;
 	char	**token;
-	int		x_max;
-	int		y_max;
-	int		x_token;
-	int		y_token;
+	int		x_board_max;
+	int		y_board_max;
+	int		x_token_max;
+	int		y_token_max;
 
 	int 	fd_test;
 }				t_game_elem;
@@ -42,8 +42,8 @@ typedef struct	s_cpu
 t_game_elem		*g_f;
 t_cpu			*g_cpu;
 
-void	fill_token_with_figure(int fd);
-void	fill_board_with_lines(int fd);
+void	fill_token_with_figure(void);
+void	fill_board_with_lines(void);
 
 void	make_next_step(void);
 void	index_all_board(char ch);
