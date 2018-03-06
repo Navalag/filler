@@ -23,7 +23,7 @@ void	index_all_board(char ch)
 	unsigned char	i;
 
 	i = '0';
-	while (check_free_space())
+	while (check_free_space() && i < 255)
 	{
 		y = 0;
 		while (y < g_f->y_board_max)

@@ -19,7 +19,6 @@ void	fill_token_with_figure(void)
 
 	i = 0;
 	get_next_line(0, &line);
-	dprintf(g_f->fd_test, "%s\n", line);
 	g_f->y_token_max = ft_atoi(line + 6);
 	while (ft_isdigit(*(line + 6 + i)))
 		i++;
@@ -32,7 +31,6 @@ void	fill_token_with_figure(void)
 	{
 		get_next_line(0, &line);
 		g_f->token[i] = ft_strdup(line);
-		dprintf(g_f->fd_test, "%s\n", line);
 		free(line);
 		i++;
 	}
@@ -45,13 +43,11 @@ void	fill_board_with_lines(void)
 
 	i = 0;
 	get_next_line(0, &line);
-	dprintf(g_f->fd_test, "%s\n", line);
 	free(line);
 	while (i < g_f->y_board_max)
 	{
 		get_next_line(0, &line);
 		g_f->board[i] = ft_strdup(line + 4);
-		dprintf(g_f->fd_test, "%s\n", line);
 		free(line);
 		i++;
 	}
@@ -61,7 +57,7 @@ void	fill_board_with_lines(void)
 void	make_next_step(void)
 {
 	g_cpu = (t_cpu *)malloc(sizeof(*g_cpu));
-	clean_structs();
+	insert_begin_val_to_struct();
 	if (g_f->x_o_team == 'O')
 		index_all_board('X');
 	else
@@ -76,14 +72,11 @@ int		main(void)
 
 	i = 0;
 	g_f = (t_game_elem *)malloc(sizeof(*g_f));
-	g_f->fd_test = open("test_map.txt", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	get_next_line(0, &line);
 	g_f->x_o_team = (line[10] == '1') ? 'O' : 'X';
-	dprintf(g_f->fd_test, "%s\n", line);
 	free(line);
 	while (get_next_line(0, &line))
 	{
-		dprintf(g_f->fd_test, "%s\n", line);
 		g_f->y_board_max = ft_atoi(line + 8);
 		while (ft_isdigit(*(line + 8 + i)))
 			i++;
@@ -94,6 +87,9 @@ int		main(void)
 		fill_board_with_lines();
 		make_next_step();
 		ft_printf("%d %d\n", g_cpu->y, g_cpu->x);
+		clean_all_structs();
 	}
+	free(g_f);
+	// system("leaks agalavan.filler");
 	return (0);
 }

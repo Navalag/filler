@@ -55,6 +55,7 @@ int				check_figure(char ch, int x, int y, int copy_x);
 void			best_cpu(int tmp_cpu, int x, int y);
 int				find_cpu(char ch, int x, int y);
 
-void			clean_structs(void);
+void			insert_begin_val_to_struct(void);
+void			clean_all_structs(void);
 
 #endif

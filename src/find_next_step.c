@@ -25,17 +25,18 @@ void	find_best_move(char ch)
 		{
 			if ((g_f->y_token_max + y) >= g_f->y_board_max + 1 ||
 				(g_f->x_token_max + x) >= g_f->x_board_max + 1)
-				x++;
+				;
 			else if (check_figure(ch, x, y, x))
-			{
 				best_cpu(find_cpu(ch, x, y), x, y);
-				x++;
-			}
-			else
-				x++;
+			x++;
 		}
 		y++;
 	}
+	// int	i = -1;
+	// while (++i < 100)
+	// {
+	// 	ft_printf("%s\n", g_f->board[i]);
+	// }
 }
 
 int		check_figure(char ch, int x, int y, int copy_x)
