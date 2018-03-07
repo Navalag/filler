@@ -12,6 +12,18 @@
 
 #include "../inc/filler.h"
 
+/*
+** Next block of functions find best move for our bot.
+**
+** For this reason in find_best_move() we use 3 steps:
+** 1) check figure - if current position valid (has only one touch with
+** our territory, does not touch opponent and every piece of figure '*' can
+** be placed on the board).
+** 2) find cpu - calculate all indexes on which we want to place figure.
+** 3) best cpu - put into the structure coordinates with lowest cpu
+** which means the closest to the opponent.
+*/
+
 void	find_best_move(char ch)
 {
 	int		y;
@@ -32,11 +44,6 @@ void	find_best_move(char ch)
 		}
 		y++;
 	}
-	// int	i = -1;
-	// while (++i < 100)
-	// {
-	// 	ft_printf("%s\n", g_f->board[i]);
-	// }
 }
 
 int		check_figure(char ch, int x, int y, int copy_x)

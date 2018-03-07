@@ -13,7 +13,13 @@
 #include "../inc/filler.h"
 
 /*
-** Following function finds index for every cell on the board.
+** Following function make 3 loops:
+** 1) until there are '.' (free positions on the map);
+** 2) iterate lines;
+** 3) iterate columns;
+**
+** At the end bot has map where opponent surrounded with numbers which shows
+** distace to our territory.
 */
 
 void	index_all_board(char ch)

@@ -65,6 +65,18 @@ void	make_next_step(void)
 	find_best_move(g_f->x_o_team);
 }
 
+/*
+** Following bot algorithm is divided into 3 parts:
+** 1 - read input data from vm. This functions can be find in main.c file.
+** 2 - index all positions on the board according their distance from
+** the opponent. File index_board_func.c
+** 3 - find next step. After all positions are indexed, bot can
+** choose where is the best place to put the given figure.
+**
+** At the very end bot prints "Y, X\n" coordinates for vm (virtual machine)
+** and clean all malloc allocated memory.
+*/
+
 int		main(void)
 {
 	char	*line;
@@ -90,6 +102,5 @@ int		main(void)
 		clean_all_structs();
 	}
 	free(g_f);
-	// system("leaks agalavan.filler");
 	return (0);
 }
