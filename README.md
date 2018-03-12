@@ -6,7 +6,7 @@ The aim of this project is to create a bot which will fight other bots in the po
 
 The rules are very simple. There is Virtual Machine (VM) wich takes 3 parameters: two bots and a board.
 At the beginning of the game VM gives (via stdin) map with 2 dots on it - 'O' and 'X' in accordance for first and second players.
-Also it gives random figure which must be placed on the board (you can find example of input information in /test_files folder).
+Also it gives random figure which must be placed on the board.
 
 First bot reads the map, analyzes it and gives back the coordinates of next step.
 
@@ -31,7 +31,7 @@ My Filler bot is divided into 3 parts:
 This is the most important part, to read more about this algorithm, google **"[taxicab geometry](https://en.wikipedia.org/wiki/Taxicab_geometry)"** or **"[chebyshev distance](https://en.wikipedia.org/wiki/Chebyshev_distance)"**, or in ukrainian **"[Манхеттенська метрика](https://uk.wikipedia.org/wiki/%D0%9C%D0%B0%D0%BD%D1%85%D0%B5%D1%82%D1%82%D0%B5%D0%BD%D1%81%D1%8C%D0%BA%D0%B0_%D0%BC%D0%B5%D1%82%D1%80%D0%B8%D0%BA%D0%B0)"** or **"[Відстань Чебишова](https://uk.wikipedia.org/wiki/%D0%92%D1%96%D0%B4%D1%81%D1%82%D0%B0%D0%BD%D1%8C_%D0%A7%D0%B5%D0%B1%D0%B8%D1%88%D0%BE%D0%B2%D0%B0)"**.
 Please find screenshot with example bellow.
 
-![](screenshots/pic1.png)
+<img src="screenshots/pic1.png" width="400">
 
 It looks like my bot surrounds opponent's territory in a circles with numbers from smaller to bigger and this numbers show minimum distance to touch the opponent.
 
@@ -49,6 +49,7 @@ Than bot need to find **the best valid place**. It calculates all indexes which 
 For this reason it has additional structure *t_cpu* (can be found in inc/filler.h) where stored the best coordinates for next move.
 
 That's it!
+
 After all 3 steps bot can print result on stdout (via standard printf).
 
 ## FILE STRUCTURE OF PROJECT:
