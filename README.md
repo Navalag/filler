@@ -104,4 +104,4 @@ GOOD FIGHT and
 
 ## HOW TO CONTACT ME:
 
-If you found mistake || bug || have any questions || sugestions, please feel free to contact me via agalavan@student.unit.ua
+If you found mistake || bug || have any questions || suggestions, please feel free to contact me at agalavan@student.unit.ua
