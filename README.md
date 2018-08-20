@@ -21,7 +21,7 @@ The winner is the one who scored more points.
 
 You can find full description in subject [filler.en.pdf](filler.en.pdf) file.
 
-## DESCRIPTION OF THIS IMPLEMENTATION:
+## DESCRIPTION OF MY IMPLEMENTATION:
 
 My Filler bot is divided into 3 parts:
 
